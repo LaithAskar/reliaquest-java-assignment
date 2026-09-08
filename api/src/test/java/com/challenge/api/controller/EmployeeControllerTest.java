@@ -155,6 +155,37 @@ class EmployeeControllerTest {
                 .andExpect(jsonPath("$.fieldErrors.contractHireDate").exists());
     }
 
+    @Test
+    void rejectsMalformedJsonWithSanitizedError() throws Exception {
+        assertUnreadableBody("{");
+    }
+
+    @Test
+    void rejectsInvalidDateWithSanitizedError() throws Exception {
+        assertUnreadableBody("{\"contractHireDate\":\"not-a-date\"}");
+    }
+
+    @Test
+    void rejectsNullBodyWithSanitizedError() throws Exception {
+        assertUnreadableBody("null");
+    }
+
+    @Test
+    void rejectsEmptyBodyWithSanitizedError() throws Exception {
+        assertUnreadableBody("");
+    }
+
+    private void assertUnreadableBody(String body) throws Exception {
+        mockMvc.perform(post("/api/v1/employee")
+                        .with(user("webhook-client"))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(400))
+                .andExpect(jsonPath("$.message").value("Invalid request body"))
+                .andExpect(jsonPath("$.fieldErrors").isEmpty());
+    }
+
     private Employee employee() {
         return new EmployeeModel(
                 EMPLOYEE_UUID,

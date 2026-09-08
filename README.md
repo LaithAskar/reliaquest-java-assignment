@@ -93,7 +93,7 @@ Every endpoint requires HTTP Basic authentication. Sessions are stateless, unkno
 
 ### Run locally
 
-Java 17 is required.
+Java 17 is required. The commands below use Bash. If your terminal uses zsh (the macOS default), run `bash` first.
 
 ```bash
 export SPRING_SECURITY_USER_NAME=employee-webhook
