@@ -1,1 +1,3 @@
-spring.application.name: entry-level-java-challenge
+server:
+  error:
+    include-message: never
