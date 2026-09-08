@@ -100,3 +100,20 @@ export SPRING_SECURITY_USER_NAME=employee-webhook
 read -r -s -p "Local API password: " SPRING_SECURITY_USER_PASSWORD
 export SPRING_SECURITY_USER_PASSWORD
 ./gradlew bootRun
+```
+
+Example request:
+
+```bash
+curl --user "$SPRING_SECURITY_USER_NAME:$SPRING_SECURITY_USER_PASSWORD" \
+  http://localhost:8080/api/v1/employee
+```
+
+### Verify
+
+```bash
+./gradlew spotlessApply
+./gradlew build
+```
+
+Tests cover authentication, retrieval, creation, validation, missing employees, and service behavior.
